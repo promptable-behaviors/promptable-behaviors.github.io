@@ -1,1 +1,1 @@
-# embodied-codebook.github.io
+# promptable-behaviors.github.io
