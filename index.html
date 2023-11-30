@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Selective Visual Representations Improve Convergence and Generalization for Embodied AI">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Promptable Behaviors</title>
+<!--
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FV4ZJ9PVSV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-FV4ZJ9PVSV');
+  </script> -->
+
+<!--   <script>
+     -->
+
+
+
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <style>
+    /* Define a CSS class for your section with a specific background color */
+    .colored-section {
+      background-color: #F8F8F8; /* Replace with your desired color code or name */
+      padding: 20px; /* Optional: Add padding for better spacing */
+    }
+
+    .colored-section2 {
+      background-color: #f3ebde; /* Replace with your desired color code or name */
+      padding: 20px; /* Optional: Add padding for better spacing */
+    }
+
+    .colored-section3 {
+      background-color: #f0eeee; /* Replace with your desired color code or name */
+      padding: 20px; /* Optional: Add padding for better spacing */
+    }
+
+    ol {
+      margin-left: 50px; /* Adjust the value to control the tab size */
+    }
+  </style>
+
+  <style>
+    .image-container {
+      display: inline-block;
+      margin: 10px; /* Add margin for spacing */
+    }
+
+    .equal-height {
+      height: 250px; /* Set the desired equal height for both images */
+    }
+  </style>
+
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+
+
+</head>
+<body onload="updateSingleVideo(); updateQpredVideo();">
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+</nav>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Promptable Behaviors: Personalizing Multi-Objective Rewards from Human Preferences</h1>
+<!--          <h3 class="title is-4 conference-authors"><a target="_blank" href="https://2023.emnlp.org/">Under Review</a></h3>-->
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a target="_blank" href="https://minyoung1005.github.io/">Minyoung Hwang</a><sup>1</sup>,</span>
+            <span class="author-block"><a target="_blank" href="https://lucaweihs.github.io/">Luca Weihs</a><sup>1</sup>,</span>
+            <span class="author-block"><a target="_blank" href="https://chanwoo-park-official.github.io/">Chanwoo Park</a><sup>2</sup>,</span>
+            <span class="author-block"><a target="_blank" href="https://sites.google.com/view/kiminlee">Kimin Lee</a><sup>3</sup>,</span>
+            <span class="author-block"><a target="_blank" href="https://anikem.github.io//">Ani Kembhavi</a><sup>1</sup>,</span>
+            <span class="author-block"><a target="_blank" href="https://sites.google.com/view/ehsanik-personal-website">Kiana Ehsani</a><sup>1</sup></span>
+          </div>
+
+
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Allen Institute for Artifical Intelligence,</span>
+            <span class="author-block"><sup>2</sup>Massachusetts Institute of Technology,</span>
+            <span class="author-block"><sup>3</sup>Korea Advanced Institute of Science and Technology</span>
+          </div>
+
+
+          <br><br>
+
+
+
+          <span class="link-block"><a target="_blank" href="" class="external-link
+          button is-normal is-rounded is-dark"><span class="icon"><i class="fas fa-file"></i></span><span>ArXiv</span></a></span>
+
+          <!-- Code Link. -->
+          <span class="link-block"><a target="_blank" href="https://promptable-behaviors.github.io/" class="external-link
+          button is-normal is-rounded is-dark"><span class="icon"><i class="fab fa-github"></i></span><span>Code (Coming Soon)</span></a></span>
+<!--          <span class="link-block">-->
+<!--          <a target="_blank" href="" class="external-link button is-normal is-rounded is-dark">-->
+<!--            <span class="icon">-->
+<!--              <i class="fas fa-database" aria-hidden="true"></i>-->
+<!--            </span>-->
+<!--            <span>Dataset</span>-->
+<!--          </a>-->
+<!--        </span>-->
+          <br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-fullhd">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-vcentered is-centered">
+          <br>
+          <img src="media/multiple_human_users.gif" class="interpolation-image" width="800" alt="Interpolate start reference image." />
+
+        </div>
+        <h2 class="subtitle has-text-centered">
+          <span class="dnerf2"> How can we <font color="#9900FF"><i>effectively</i></font> customize a robot for human users?
+            We propose <i>Promptable Behaviors</i>, a novel personalization framework that deals with diverse preferences without re-training the agent.
+            <!-- Inspired by <i>selective attention</i> in humans—the process through which people filter
+            their perception based on their experiences, knowledge, and the task at hand—we introduce a
+            parameter-efficient approach to filter visual stimuli for Embodied-AI. -->
+        </span>
+        </h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!--<section class="hero is-light is-small">-->
+<!--  <div class="hero-body">-->
+<!--    <div class="container">-->
+<!--      <div id="results-carousel" class="carousel results-carousel">-->
+<!--        <div class="item item-steve">-->
+<!--          <img src="media/procthor1_baseline.png">-->
+<!--          <img src="media/procthor1_baseline.gif" alt="Your GIF Image">-->
+<!--        </div>-->
+<!--        <div class="item item-chair-tp">-->
+<!--          <img src="media/procthor2_baseline.png">-->
+<!--          <img src="media/procthor2_baseline.gif" alt="Your GIF Image">-->
+<!--        </div>-->
+<!--         <div class="item item-shiba">-->
+<!--          <img src="media/procthor3_baseline.png">-->
+<!--          <img src="media/procthor1_baseline.gif" alt="Your GIF Image">-->
+<!--        </div>-->
+<!--        <div class="item item-fullbody">-->
+<!--          <video poster="" id="fullbody" autoplay muted loop height="100%">-->
+<!--            <source src="media/demo.mp4"-->
+<!--                    type="video/mp4">-->
+<!--          </video>-->
+<!--        </div>-->
+<!--        <div class="item item-shiba">-->
+<!--          <video poster="" id="shiba" autoplay muted loop height="100%">-->
+<!--            <source src="media/demo.mp4"-->
+<!--                    type="video/mp4">-->
+<!--          </video>-->
+<!--        </div>-->
+<!--        <div class="item item-blueshirt">-->
+<!--          <video poster="" id="blueshirt" autoplay muted loop height="100%">-->
+<!--            <source src="media/demo.mp4"-->
+<!--                    type="video/mp4">-->
+<!--          </video>-->
+<!--        </div>-->
+<!--        <div class="item item-shiba">-->
+<!--          <video poster="" id="shiba" autoplay muted loop height="100%">-->
+<!--            <source src="media/demo.mp4"-->
+<!--                    type="video/mp4">-->
+<!--          </video>-->
+<!--        </div>-->
+<!--       <div class="item item-chair-tp">-->
+<!--          <video poster="" id="chair-tp" autoplay muted loop height="100%">-->
+<!--            <source src="media/demo.mp4"-->
+<!--                    type="video/mp4">-->
+<!--          </video>-->
+<!--        </div>-->
+<!--         <div class="item item-chair-tp">-->
+<!--          <video poster="" id="chair-tp" autoplay muted loop height="100%">-->
+<!--            <source src="media/demo.mp4"-->
+<!--                    type="video/mp4">-->
+<!--          </video>-->
+<!--        </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->
+
+
+
+
+
+<!--<section class="hero teaser">-->
+<!--  <div class="container is-fullhd">-->
+<!--    <div class="hero-body">-->
+<!--      <div class="container">-->
+<!--        <div class="columns is-vcentered  is-centered">-->
+<!--          <video id="teaser" autoplay muted loop height="100%">-->
+<!--            <source src="media/demo.mp4"-->
+<!--                    type="video/mp4">-->
+<!--          </video>-->
+<!--          </br>-->
+<!--        </div>-->
+<!--        <br>-->
+<!--        <h2 class="subtitle has-text-centered">-->
+<!--        <span class="dperact">AR2-D2's</span> demonstrations collection interface via an iPhone/iPad.-->
+<!--        </h2>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->
+
+
+
+
+
+<section class="colored-section">
+  <div class="container is-max-desktop is-full-fullhd">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <br/>
+          <p>
+            Customizing robotic behaviors to be aligned with diverse human preferences is an underexplored challenge in the field of embodied AI. 
+            In this paper, we present Promptable Behaviors, a novel framework that facilitates efficient personalization of robotic agents to diverse human preferences in complex environments. 
+            We use multi-objective reinforcement learning to train a single policy adaptable to a broad spectrum of preferences. 
+            We introduce three distinct methods to infer human preferences by leveraging different types of interactions: (1) human demonstrations, (2) preference feedback on trajectory comparisons, and (3) language instructions. 
+            We evaluate the proposed method in personalized object-goal navigation and flee navigation tasks in ProcTHOR and RoboTHOR, demonstrating the ability to prompt agent behaviors to satisfy human preferences in various scenarios.
+          </p>
+        </div>
+      </div>
+    </div>
+    <br>
+
+    <!--/ Abstract. -->
+
+  </div>
+
+
+</section>
+
+<section class="section">
+  <div class="container is-max-widescreen">
+
+    <div class="rows">
+
+<style>
+  .centered-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .interpolation-image {
+    display: block;
+    margin: 20px 0;  /* Give some space above and below the image */
+  }
+</style>
+
+
+<section>
+  <div class="rows">
+    <div class="row is-full-width">
+      <h2 class="title is-3"><span class="dperact">Diverse Human Preferences in Realistic Scenarios</span></h2>
+      <!-- <h3 class="title is-4">Diverse Human Preferences in Realistic Scenarios</h3> -->
+      <p>
+        Imagine a robot navigating in a house at midnight, asked to find an object without disturbing a child who just fell asleep. 
+        The robot is required to explore the house thoroughly in order to find the target object, but not collide with any objects to avoid making unnecessary noise. 
+        In contrast to this <i>Quiet Operation</i> scenario, in the <i>Urgent</i> scenario, a user is in a hurry and expects a robot to find the target object quickly rather than avoiding collisions.
+        These contrasting scenarios highlight the need for customizing robot policies to adapt to diverse and specific human preferences.
+        However, conventional approaches have shortcomings in dealing with <font color="#9900FF"><i>diverse preferences</i></font>, since the agent has to be re-trained for each unique human preference.
+        <br><br>
+
+      <div class="columns is-vcentered is-centered">
+          <br>
+          <img src="media/diverse_preferences_example.png" class="interpolation-image" alt="Interpolate start reference image."
+           style="width: 80%;" />
+      </div>
+
+
+    </div>
+  </div>
+</section>
+
+      <br><br>
+
+
+<section>
+  <div class="rows">
+    <div class="row is-full-width">
+      <h2 class="title is-3"><span class="dperact">Promptable Behaviors</span></h2>
+      <!-- <h3 class="title is-4">Diverse Human Preferences in Realistic Scenarios</h3> -->
+      <p>
+        We propose Promptable Behaviors, a novel personalization framework that deals with diverse human preferences without re-training the agent.
+        The key idea of our method is to use <font color="#9900FF"><i>multi-objective reinforcement learning (MORL)</i></font> as the backbone of personalizing a reward model.
+        We take a modular approach:
+        <ol>
+          <li> training a policy conditioned on a reward weight vector across multiple objectives and</li>
+          <li> inferring the reward weight vector that aligns with the user's preference.</li>
+        </ol>
+        Using MORL, agent behaviors become promptable through adjustments in the reward weight vector during inference, without any policy fine-tuning. This significantly simplifies customizing robot behaviors to inferring a low-dimensional reward weight vector.
+      </p>
+
+      <div class="columns is-vcentered is-centered">
+          <br>
+          <img src="media/overview.png" class="interpolation-image" alt="Interpolate start reference image."
+            style="width: 40%;" />
+      </div>
+
+      We provide a variety of options for users to provide their preferences to the agent.
+      Specifically, we introduce three distinct methods of reward weight prediction leveraging different types of interaction: (1) human demonstrations, (2) preference feedback on trajectory comparisons, and (3) language instructions. 
+
+
+    </div>
+  </div>
+</section>
+
+      <br><br>
+
+
+<section>
+  <div class="rows">
+    <div class="row is-full-width">
+      <h2 class="title is-3"><span class="dperact">Results</span></h2>
+      <h3 class="title is-4 ">Our Method Achieves High Success Rates While Efficiently Optimizing the Agent Behavior</h3>
+      <p>
+        <!-- Bottlenecking the task-conditioned embeddings using our
+        codebook module results in significant improvements over the non-bottlenecked representations
+        across a variety of Embodied-AI benchmarks. We consider <b>Object Goal Navigation</b> (<i>navigate to find a specific
+        object category in a scene</i>) and <b>Object Displacement</b> (<i>bringing a source object to a destination
+        object using a robotic arm</i>) across 5 benchmarks (ProcTHOR, ArchitecTHOR, RoboTHOR, AI2-iTHOR, and ManipulaTHOR). -->
+        We evaluate our method on personalized object-goal navigation (ObjectNav) and flee navigation (FleeNav) in <a href="https://procthor.allenai.org/">ProcTHOR</a> and <a href="https://ai2thor.allenai.org/robothor/">RoboTHOR</a>, environments in the <a href="https://ai2thor.allenai.org/">AI2-THOR</a> simulator. 
+        The policy is evaluated across various scenarios to ensure that it aligns with human preferences and achieves satisfactory performance in both tasks. 
+        We show that the proposed method effectively prompts agent behaviors by adjusting the reward weight vector and infers reward weights from human preferences using three distinct reward weight prediction methods.
+      </p>
+      <br>
+
+      <p>
+        For instance in ObjectNav, when house exploration is prioritized, the proposed method shows the highest success rate (row j in Table 1), 11.3% higher than <a
+        href="https://github.com/allenai/embodied-clip">EmbCLIP</a>, 
+        while Prioritized EmbCLIP shows the lowest success rate (row d in Table 1) among all methods and reward configurations. 
+        Additionally, our method achieves the highest SPL and the path efficiency reward when path efficiency is prioritized (row i in Table 1), 
+        outperforming EmbCLIP by 19.3% and 56.1%, respectively. 
+        This implies that the proposed method effectively maintains general performance while satisfying the underlying preferences in various prioritizations.
+      </p>
+      <br>
+
+      <div class="columns is-vcentered is-centered">
+        <br>
+        <img src="media/table-1-cropped.png" class="interpolation-image" alt="Interpolate start reference image."
+          style="width: 100%;" />
+      </div>
+      <!-- <br> -->
+
+      <p>
+        <span class="dnerf2">Table 1. <b>Performance in ProcTHOR ObjectNav.</b> We evaluate each method in the validation set with six different configurations of objective prioritization: uniform reward weight across all objectives and prioritizing a single objective 4 times as much as other objectives. Sub-rewards for each objective are accumulated during each episode, averaged across episodes, and then normalized using the mean and variance calculated across all methods. Colored cells indicate the highest values in each sub-reward column.
+      </span>
+      </p>
+      <br><br>
+
+      <div class="columns is-vcentered is-centered">
+        <br>
+        <img src="media/trajectory_visualization_glow.png" class="interpolation-image" alt="Interpolate start reference image." style="width: 100%;" />
+      </div>
+
+      <p>
+          <span class="dnerf2">Figure 1. <b>Trajectory Visualizations.</b> In each figure, agent trajectory is visualized when an objective is prioritized 10 times as much as other objectives. The agent's final location is illustrated as a star.
+      </span>
+      </p>
+
+      <br><br>
+      <h3 class="title is-4 ">Conflicting Objectives Affect Each Other</h3>
+      <p>
+        We observe trade-offs between two conflicting objectives in ObjectNav: safety and house exploration. As we increase the weight for safety, the safety reward increases while the reward for its conflicting objective, house exploration, decreases.
+
+      </p>
+
+      <div class="columns is-vcentered is-centered">
+          <br>
+          <img src="media/objectnav_prioritize_safety_sub_rewards_bar_plot.png" class="interpolation-image" alt="Interpolate start reference image."
+           style="width: 40%;" />
+      </div>
+
+      <p>
+        <span class="dnerf2">Figure 2. <b>Conflicting Objectives.</b> As we prioritize safety more, the average safety reward increases while the average reward of a conflicting objective, house exploration, decreases. We normalize the rewards for each objective using the mean and variance calculated across all weights.
+      </span>
+      </p>
+
+      <br><br>
+      
+      <h3 class="title is-4 ">Predicting Reward Weights from Human Preferences</h3>
+      <p>
+        Now, we compare three reward weight prediction methods and show the results of <i>Promptable Behaviors</i> for the full pipeline. 
+        As mentioned above, the users have three distinct options to describe their preferences to the agent: (1) demonstrating a trajectory, (2) labeling their preferences on trajectory comparisons, and (3) providing language instructions.
+        Table 2 shows the quantitative performance of the three weight prediction methods, each with its own advantage. 
+
+      </p>
+
+      <br>
+      <div class="columns is-vcentered is-centered">
+          <br>
+          <img src="media/table-3.png" class="interpolation-image" alt="Interpolate start reference image."
+          style="width: 40%;" />
+      </div>
+
+      <p>
+        <span class="dnerf2">Table 2. <b>Comparison of Three Weight Prediction Methods in ProcTHOR ObjectNav.</b> 
+          We predict the optimal reward weights from human demonstrations, preference feedback on trajectory
+          comparisons, and language instructions. We measure the cosine
+          similarity (Sim) between the predicted weights and the weights designed by human experts. We also calculate generalized gini index
+          (GGI) which measures the peakedness of the predicted weights
+      </span>
+      </p>
+      <br>
+      <br>
+
+      <p>
+        We also perform human evaluations by asking participants to compare trajectories generated with the predicted reward weights 
+        for different scenarios. Results in Table 3 show that group trajectory comparison, especially with two trajectories per group, 
+        achieves the highest win rate, significantly outperforming other methods by up to 17.8%. 
+        This high win rate indicates that the generated trajectories closely align with the intended scenarios.
+      </p>
+      <br>
+
+      <div class="columns is-vcentered is-centered">
+          <br>
+          <img src="media/table-4.png" class="interpolation-image" alt="Interpolate start reference image."
+          style="width: 40%;" />
+      </div>
+
+      <p>
+        <span class="dnerf2">Table 3. <b>Human Evaluation on Scenario-Trajectory Matching.</b> 
+          Participants evaluate trajectories generated with the trained policy
+          and the reward weights predicted for five scenarios in ObjectNav.
+      </span>
+      </p>
+
+
+      <br><br>
+
+      <h2 class="title is-3"><span class="dperact">Full Framework Demonstrations</span></h2>
+      <p>
+        We conduct real human experiments given the five scenarios as follows:
+        <ol>
+          <li><b>Urgent</b>: The user is getting late to an important meeting and needs to quickly find an object in the house.</li>
+          <li><b>Energy Conservation</b>: The user wants to check an appliance in the house while the user is away, but the robot that has a limited battery life.</li>
+          <li><b>New Home</b>: The user just moved in and wants to find which furniture or object is located while inspecting the layout of the house as a video.</li>
+          <li><b>Post-Rearrangement</b>: After rearranging the house, the user does not remember where certain objects were placed. The user wants to find a specific object, while also inspecting other areas to confirm the new arrangement.</li>
+          <li><b>Quiet Operation</b>: At midnight, the user wants to find an object in the house without disturbing a sleeping child with any loud noise.</li>
+        </ol>
+      </p>
+      <br>
+
+      
+      <!-- <p>
+        We conduct a quantitative and qualitative analysis to compare the agent's behavior. The <b>Curvature</b> and
+        <b>Success Weighted by Episode Length (SEL)</b> metrics show that our agent explores more effectively and travels
+        in much smoother paths. Excessive rotations and sudden changes in direction can lead to increased energy
+        consumption and increase the chances of collisions with other objects. Lower <b>SEL</b> achieved by our agent
+        shows that we can find the target object in much fewer steps. The qualitative examples below show that the
+        baseline agent performs lots of redundant rotations.
+
+      </p> -->
+
+
+<!--      <p>Overview of EmbCLIP-Codebook.</p>-->
+<!--      <h2 class="title is-3">Results</h2>-->
+<!--      <p>Results comparing to baselines</p>-->
+<!--      <img src="media/fig3.png" class="interpolation-image" alt="Interpolate start reference image." />-->
+<!--      <p>Results across other benchmark</p>-->
+<!--      <img src="media/fig4.png" class="interpolation-image" alt="Interpolate start reference image." />-->
+
+<!--      <p>Nearest-Neighbor Retrieval in the Goal-Conditioned Embedding Space</p>-->
+<!--      <img src="media/fig6.png" class="interpolation-image" alt="Interpolate start reference image." />-->
+<!--      <p>Examples of the navigation paths</p>-->
+<!--      <img src="media/top_down_maps2.png" class="interpolation-image" alt="Interpolate start reference image." />-->
+    </div>
+  </div>
+</section>
+
+    <br>
+
+    <h3 class="title is-4 ">New House Scenario + Reward Weight Prediction from Human Demonstration</h3>
+
+    <div class="columns is-vcentered is-centered">
+        <br>
+        <img src="media/CVPR2024_demo_video_human_demonstration.gif" class="interpolation-image" alt="Interpolate start reference image."
+        style="width: 70%;" />
+    </div>
+
+    <h3 class="title is-4 ">Energy Conservation Scenario + Reward Weight Prediction from Preference Feedback (Pairwise Trajectory Comparison)</h3>
+
+    <div class="columns is-vcentered is-centered">
+        <br>
+        <img src="media/CVPR2024_demo_video_preference_feedback_pairwise.gif" class="interpolation-image" alt="Interpolate start reference image."
+        style="width: 70%;" />
+    </div>
+
+    <h3 class="title is-4 ">Energy Conservation Scenario + Reward Weight Prediction from Preference Feedback (Group Trajectory Comparison)</h3>
+
+    <div class="columns is-vcentered is-centered">
+        <br>
+        <img src="media/CVPR2024_demo_video_preference_feedback_group.gif" class="interpolation-image" alt="Interpolate start reference image."
+        style="width: 70%;" />
+    </div>
+
+    <h3 class="title is-4 ">Quiet Operation Scenario + Reward Weight Prediction from Language Instruction</h3>
+
+    <div class="columns is-vcentered is-centered">
+        <br>
+        <img src="media/CVPR2024_demo_video_language_instruction.gif" class="interpolation-image" alt="Interpolate start reference image."
+        style="width: 70%;" />
+    </div>
+
+<!-- <section class="colored-section3">
+  <div class="rows is-centered">
+    <div class="container">
+    <div class="columns is-vcentered is-centered">
+      <div class="image-container">
+        <img src="media/procthor1_codebook.png" alt="PNG Image" class="equal-height">
+        <img src="media/procthor1_codebook.gif" alt="GIF Image" class="equal-height">
+        <h2 class="subtitle has-text-centered">
+          <span class="dnerf2"><b>EmbCLIP-Codebook (Ours)</b></span>
+        </h2>
+      </div>
+    </div>
+    <div class="columns is-vcentered is-centered">
+      <div class="image-container">
+        <img src="media/procthor1_baseline.png" alt="PNG Image" class="equal-height">
+        <img src="media/procthor1_baseline.gif" alt="GIF Image" class="equal-height">
+        <h2 class="subtitle has-text-centered">
+          <span class="dnerf2">EmbCLIP</span>
+        </h2>
+      </div>
+    </div>
+    </div>
+  </div>
+</section> -->
+
+
+<!-- <h2 class="subtitle has-text-centered">
+</br>
+  Our agent explores the environment much more effectively and travels in much smoother trajectories. Whereas the
+  <a href="https://github.com/allenai/embodied-clip">EmbCLIP</a> baseline agent makes many redundant rotations.
+</h2> -->
+<br>
+
+<section>
+  <div class="rows">
+    <div class="row is-full-width">
+      <h2 class="title is-3"><span >BibTeX</span></h2>
+
+    </div>
+  </div>
+</section>
+
+
+<br><br>
+
+
+<!-- <section class="section">
+  <div class="container is-max-widescreen">
+
+    <div class="rows">
+      <h2 class="title is-3 centered-text">Ablation Studies</h2>
+      <p class="centered-text">We provide an analysis of the NEWTON dataset, focusing on potential ways of leveraging \dataset to enhance model performance in a physical reasoning context, and examining the consistency of LLMs with regard to model size, question polarity, and answer positioning. </p>
+          <img src="media/8.png" class="interpolation-image"
+           alt="Interpolate start reference image." />
+          </br>
+
+
+        <br/>
+
+
+
+
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-widescreen content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{wang2023newton,
+  title     = {NEWTON: Are Large Language Models Capable of Physical Reasoning?},
+  author    = {Wang, Yi Ru and Duan, Jiafei and Fox, Dieter and Srinivasa, Siddhartha,
+  booktitle = {arXiv preprint arXiv:2310.07018},
+  year      = {2023},
+}</code></pre>
+  </div>
+</section> -->
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content has-text-centered">
+          <p>
+            This website is based on the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies website template</a>,
+            which is licensed under a <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
+            Attribution-ShareAlike 4.0 International License</a> .
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>
